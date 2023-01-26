@@ -10,8 +10,14 @@ const typeDefs = `#graphql
     author: String
   }
 
+  type MainCard {
+    title: String
+    image: String
+  }
+
   type Query {
     books: [Book]
+    mainCards: [MainCard]
   }
 `;
 
@@ -26,11 +32,27 @@ const books = [
     },
 ];
 
+const mainCards = [
+  {
+    title: 'Recently reviewed',
+    image: 'Lion',
+  },
+  {
+    title: 'Looking for a gift?',
+    image: 'Penguin',
+  },
+  {
+    title: 'Best Behaved',
+    image: 'Cat',
+  },
+];
+
 // Resolvers define how to fetch the types defined in your schema.
 // This resolver retrieves books from the "books" array above.
 const resolvers = {
     Query: {
       books: () => books,
+      mainCards: () => mainCards,
     },
   };
 
