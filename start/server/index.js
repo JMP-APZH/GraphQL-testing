@@ -1,36 +1,35 @@
 import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
 
+// import { mainCards } from './db';
+// import { animals } from './db';
+
+// const { mainCards, animals } = require('./db.js');
+
 // A schema is a collection of type definitions (hence "typeDefs")
 // that together define the "shape" of queries that are executed against
 // your data.
 const typeDefs = `#graphql
-  type Book {
-    title: String
-    author: String
-  }
-
   type MainCard {
     title: String
     image: String
   }
 
+  type Animal {
+    image: String!
+    title: String!
+    rating: Float
+    price: String!
+    description: [String!]!
+    stock: Int!
+    onSale: Boolean
+  }
+
   type Query {
-    books: [Book]
     mainCards: [MainCard]
+    animals: [Animal]
   }
 `;
-
-const books = [
-    {
-      title: 'The Awakening',
-      author: 'Kate Chopin',
-    },
-    {
-      title: 'City of Glass',
-      author: 'Paul Auster',
-    },
-];
 
 const mainCards = [
   {
@@ -47,12 +46,25 @@ const mainCards = [
   },
 ];
 
+const animals = [
+  {
+      image: 'lion',
+      title: 'dummy1',
+      rating: 3.4,
+      price: '4',
+      description: ['string 1', 'string 2', 'string 3'],
+      stock: 4,
+      onSale: true
+  }
+];
+
+
 // Resolvers define how to fetch the types defined in your schema.
 // This resolver retrieves books from the "books" array above.
 const resolvers = {
     Query: {
-      books: () => books,
       mainCards: () => mainCards,
+      animals: () => animals,
     },
   };
 
