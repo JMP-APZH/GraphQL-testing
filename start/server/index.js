@@ -25,6 +25,7 @@ const typeDefs = `#graphql
     slug: String!
     stock: Int!
     onSale: Boolean
+    category: Category
   }
 
   type Category {
@@ -32,6 +33,7 @@ const typeDefs = `#graphql
     image: String!
     category: String!
     slug: String!
+    animals: [Animal!]!
   }
 
   type Query {
@@ -195,7 +197,7 @@ const categories = [
     id: '1',
     image: 'tiger',
     category: 'cats',
-    slug: 'cats'
+    slug: 'cats',
   },
   {
     id: '2',
@@ -237,8 +239,16 @@ const resolvers = {
           return category.slug === args.slug
         });
         return category
-      }
+      },
     },
+    Category: {
+      animals: (parent, args, ctx) => {
+        return animals.filter(animal => {
+          return animal.category === parent.id
+        })
+      }
+    }
+
   };
 
   // The ApolloServer constructor requires two parameters: your schema
