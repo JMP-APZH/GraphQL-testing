@@ -27,10 +27,18 @@ const typeDefs = `#graphql
     onSale: Boolean
   }
 
+  type Category {
+    id: ID!
+    image: String!
+    category: String!
+    slug: String!
+  }
+
   type Query {
     mainCards: [MainCard]
     animals: [Animal]
     animal(slug: String!): Animal
+    categories: [Category!]!
   }
 `;
 
@@ -181,6 +189,33 @@ const animals = [
   }
 ];
 
+const categories = [
+  {
+    id: '1',
+    image: 'tiger',
+    category: 'cats',
+    slug: 'cats'
+  },
+  {
+    id: '2',
+    image: 'snake',
+    category: 'reptiles',
+    slug: 'reptiles'
+  },
+  {
+    id: '3',
+    image: 'stingray',
+    category: 'ocean creatures',
+    slug: 'ocean-creatures'
+  },
+  {
+    id: '4',
+    image: 'donkey',
+    category: 'mammals',
+    slug: 'mammals'
+  },
+];
+
 
 // Resolvers define how to fetch the types defined in your schema.
 // This resolver retrieves books from the "books" array above.
@@ -193,7 +228,8 @@ const resolvers = {
           return animal.slug === args.slug
         })
         return animal
-      }
+      },
+      categories: () => categories,
     },
   };
 
