@@ -39,6 +39,7 @@ const typeDefs = `#graphql
     animals: [Animal]
     animal(slug: String!): Animal
     categories: [Category!]!
+    category(slug: String!): Category
   }
 `;
 
@@ -230,6 +231,13 @@ const resolvers = {
         return animal
       },
       categories: () => categories,
+      category: (parent, args, ctx) => {
+        let category = categories.find((category) => {
+          console.log(category.slug, args.slug)
+          return category.slug === args.slug
+        });
+        return category
+      }
     },
   };
 
