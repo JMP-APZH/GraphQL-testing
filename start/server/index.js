@@ -59,6 +59,7 @@ const typeDefs = `#graphql
         onSale: Boolean
         category: String!
     ): Animal
+    removeAnimal(id: ID!): Boolean!
   }
 `;
 
@@ -305,8 +306,19 @@ const resolvers = {
         let animals2 = animals.push(newAnimal)
         console.log(animals)
         return newAnimal
+      },
+      removeAnimal: (parent, { id }, ctx) => {
+        let index = animals.findIndex((animal) => {
+          return animal.id === id
+        })
+        animals.splice(index, 1)
+
+        return true
       }
+        
     }
+
+
 
   };
 
