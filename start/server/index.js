@@ -9,6 +9,9 @@ import { startStandaloneServer } from '@apollo/server/standalone';
 // A schema is a collection of type definitions (hence "typeDefs")
 // that together define the "shape" of queries that are executed against
 // your data.
+
+import { v4 } from 'uuid';
+
 const typeDefs = `#graphql
   type MainCard {
     title: String
@@ -42,6 +45,20 @@ const typeDefs = `#graphql
     animal(slug: String!): Animal
     categories: [Category!]!
     category(slug: String!): Category
+  }
+
+  type Mutation {
+    addAnimal(
+        image: String!
+        title: String!
+        rating: Float
+        price: String!
+        description: [String!]!
+        slug: String!
+        stock: Int!
+        onSale: Boolean
+        category: String!
+    ): Animal
   }
 `;
 
@@ -225,14 +242,14 @@ const categories = [
 const resolvers = {
     Query: {
       mainCards: () => mainCards,
-      animals: () => animals,
+      animals: (parents, args, ctx) => animals,
       animal: (parent, args, ctx) => {
         let animal = animals.find((animal) => {
           return animal.slug === args.slug
         })
         return animal
       },
-      categories: () => categories,
+      categories: (parents, args, ctx) => categories,
       category: (parent, args, ctx) => {
         let category = categories.find((category) => {
           console.log(category.slug, args.slug)
@@ -246,6 +263,48 @@ const resolvers = {
         return animals.filter(animal => {
           return animal.category === parent.id
         })
+      }
+    },
+    Animal: {
+      category: (parent, args, ctx) => {
+        return categories.find((category) => {
+          return category.id === parent.category
+        })
+      }
+    },
+    Mutation: {
+      addAnimal: (parent, {
+        image,
+        title,
+        rating,
+        price,
+        description,
+        slug,
+        stock,
+        onSale,
+        category,
+      }, ctx) => {
+        // const animals2 = animals
+        let newAnimal = {
+          id: v4(),
+          image,
+          title,
+          rating,
+          price,
+          description,
+          slug,
+          stock,
+          onSale,
+          category,
+        }
+
+        // animals.push(newAnimal)
+        // console.log(newAnimal)
+        // let animals = animals
+        // animals = [...animals2, newAnimal]
+        let animals2 = animals.push(newAnimal)
+        console.log(animals)
+        return newAnimal
       }
     }
 
