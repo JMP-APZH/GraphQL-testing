@@ -242,7 +242,7 @@ const categories = [
 // This resolver retrieves books from the "books" array above.
 const resolvers = {
     Query: {
-      mainCards: () => mainCards,
+      mainCards: (parents, args, ctx) => mainCards,
       animals: (parents, args, ctx) => animals,
       animal: (parent, args, ctx) => {
         let animal = animals.find((animal) => {
