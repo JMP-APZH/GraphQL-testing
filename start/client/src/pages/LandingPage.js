@@ -9,6 +9,7 @@ const ANIMALS_QUERY = gql`
 {
     animals {
         id
+        title
         image
         price
         slug
