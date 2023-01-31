@@ -65,16 +65,16 @@ const typeDefs = `#graphql
 
 const mainCards = [
   {
-    title: 'Recently reviewed',
-    image: 'Lion',
+    title: "Recently reviewed",
+    image: "lion",
   },
   {
-    title: 'Looking for a gift?',
-    image: 'Penguin',
+    title: "Looking for a gift?",
+    image: "penguin",
   },
   {
-    title: 'Best Behaved',
-    image: 'Cat',
+    title: "Best Behaved",
+    image: "cat",
   },
 ];
 

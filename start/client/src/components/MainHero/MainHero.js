@@ -1,23 +1,55 @@
 import React from 'react'
 import "./MainHero.css"
 import animals from "../../assets/images"
+import cat from "./cat.jpg"
+import lion from "./lion2.jpg"
+import penguin from "./penguin2.jpg"
 import {Container} from "reactstrap"
 
+import { useQuery, gql } from "@apollo/client"
+
+
 function MainHero() {
+
+    // const cardsData = useQuery(gql`
+    //     {
+    //         mainCards {
+    //             image
+    //             title
+    //         }
+    //     }
+    
+    // `)
+
+    const { loading, error, data } = useQuery(gql`
+        {
+            mainCards {
+                image
+                title
+            }
+        }
+
+    `)
+
+    if (loading) return <div> Loading ... </div>
+
+    if (error) return <div> Something went wrong ... </div>
+
+    console.log(data)
 
     return (
         <div className="MainHero">
             <Container>
                     <div className="header-container">
                         <h2>Find your <br/> new four-legged <br/> best friend</h2>
-                        <img src={animals.rhino} />
+                        <img src={animals.rhino} alt="Rhino Mascotte" />
                     </div>
                     <div className="cards-container">
-                        {[].map(card => {
+                        {data.mainCards.map(card => {
                             return (
                                 <div className="card">
                                     <h3>{card.title}</h3>
-                                    <img src={animals[card.img]} style={{width: "100%"}}/>
+                                    <img src={animals[card.image]} alt="animal" style={{width: "100%"}}/>
                                 </div>
                             )
                         })}
